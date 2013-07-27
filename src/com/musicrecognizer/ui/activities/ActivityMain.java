@@ -38,48 +38,6 @@ public class ActivityMain extends FragmentActivity {
 		mViewPager.setAdapter(mViewPagerAdapter);
 	}
 
-	public static class FragmentSearch extends Fragment {
-
-		public static FragmentSearch newInstance() {
-
-			FragmentSearch fragmentSearch = new FragmentSearch();
-
-			return fragmentSearch;
-		}
-	}
-
-	public static class FragmentMySongs extends Fragment {
-
-		public static FragmentMySongs newInstance() {
-
-			FragmentMySongs fragmentMySongs = new FragmentMySongs();
-
-			return fragmentMySongs;
-		}
-	}
-
-	public static class FragmentTopSongs extends Fragment {
-
-		private View mViewContent;
-
-		public static FragmentTopSongs newInstance() {
-
-			FragmentTopSongs fragmentDirectionPoint = new FragmentTopSongs();
-
-			return fragmentDirectionPoint;
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-
-			mViewContent = inflater.inflate(R.layout.fragment_search,
-					container, false);
-
-			return mViewContent;
-		}
-	}
-
 	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
 		public ScreenSlidePagerAdapter(FragmentManager fm) {

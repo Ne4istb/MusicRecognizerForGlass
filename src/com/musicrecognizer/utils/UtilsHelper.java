@@ -21,7 +21,7 @@ public class UtilsHelper {
 	/**
 	 * Debug tag
 	 */
-	public static final String LOG_TAG = "FellowTravelers";
+	public static final String LOG_TAG = "MusicRecognizer";
 
 	/**
 	 * Prints exception if debug is on
