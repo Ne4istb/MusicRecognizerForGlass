@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import d.musicrecognizer.R;
 
 public class ActivityMain extends FragmentActivity {
@@ -69,15 +66,15 @@ public class ActivityMain extends FragmentActivity {
 
 			case 0:
 
-				return FragmentTopSongs.newInstance();
+				return FragmentSearch.newInstance();
 
 			case 1:
 
-				return FragmentTopSongs.newInstance();
+				return FragmentMySongs.newInstance();
 
 			case 2:
 
-				return FragmentSearch.newInstance();
+				return FragmentTopSongs.newInstance();
 
 			default:
 
