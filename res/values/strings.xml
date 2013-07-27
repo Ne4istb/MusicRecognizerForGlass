@@ -8,8 +8,8 @@
     <string name="fragment_tags">Favorites</string>
     <string name="fragment_top_songs">Top songs</string>
 
-    
     <!-- fragment_search -->
     <string name="fragment_search_btn_search">Start</string>
-    
+    <string name="fragment_search_btn_search_stop">Stop</string>
+
 </resources>

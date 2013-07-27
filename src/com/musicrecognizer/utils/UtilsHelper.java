@@ -11,6 +11,8 @@ import android.util.Log;
 
 public class UtilsHelper {
 
+	public static final String FILE_RECORD_NAME = "temp.3gp";
+
 	public static final String KEY_USER_NAME = "user_name";
 
 	/**
