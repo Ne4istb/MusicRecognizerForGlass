@@ -2,7 +2,6 @@ package com.musicrecognizer.ui.activities;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import android.media.MediaPlayer;
@@ -17,14 +16,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.echonest.api.v4.EchoNestAPI;
+import com.echonest.api.v4.Track;
 import com.musicrecognizer.utils.UtilsHelper;
 
 import d.musicrecognizer.R;
 
 public class FragmentSearch extends Fragment implements OnClickListener {
 
-	public int RECORD_FILE_TIME = 3;
+	public int RECORD_FILE_TIME = 10;
 	public int UPDATE_PERIOD = 1000;
 
 	private View mViewContent;
@@ -40,13 +42,22 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 	private int counter = 0;
 
+	private EchoNestAPI mEchoNestAPI;
+
 	public static FragmentSearch newInstance() {
 
 		FragmentSearch fragmentSearch = new FragmentSearch();
 
 		return fragmentSearch;
+
 	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -68,9 +79,9 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 		mProgressBar.setMax(RECORD_FILE_TIME);
 	}
 
-	private void onRecord(boolean start) {
+	private void onRecord(boolean isRecording) {
 
-		if (start) {
+		if (!isRecording) {
 
 			mFileName = Environment.getExternalStorageDirectory()
 					.getAbsolutePath();
@@ -88,6 +99,8 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 	}
 
 	private void startRecording() {
+
+		mIsRecording = true;
 
 		mBtnRecord.setText(R.string.fragment_search_btn_search_stop);
 		mProgressBar.setVisibility(View.VISIBLE);
@@ -160,6 +173,7 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 		if (!isForce) {
 
+			new AsyncTaskSeachSong().execute();
 		}
 	}
 
@@ -185,17 +199,12 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 		case R.id.search_btn_record:
 
-			if (mIsRecording)
-				mIsRecording = false;
-			else
-				mIsRecording = true;
 			onRecord(mIsRecording);
 			break;
 		}
 	}
 
-	private class AsyncTaskSeachSong extends
-			AsyncTask<Void, Void, List<String>> {
+	private class AsyncTaskSeachSong extends AsyncTask<Void, Void, Track> {
 
 		@Override
 		protected void onPreExecute() {
@@ -205,15 +214,35 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 		}
 
 		@Override
-		protected List<String> doInBackground(Void... params) {
+		protected Track doInBackground(Void... params) {
+
+			try {
+
+				File file = new File(mFileName);
+				Track track = mEchoNestAPI.uploadTrack(file);
+				track.waitForAnalysis(30000);
+
+				return track;
+			} catch (Exception e) {
+
+				UtilsHelper.printException(e);
+			}
 
 			return null;
 		}
 
 		@Override
-		protected void onPostExecute(List<String> result) {
+		protected void onPostExecute(Track result) {
 			super.onPostExecute(result);
 
+			try {
+
+				Toast.makeText(getActivity(), result.getTitle(),
+						Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+
+				UtilsHelper.printException(e);
+			}
 		}
 	}
 }

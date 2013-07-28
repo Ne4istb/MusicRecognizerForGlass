@@ -1,6 +1,3 @@
 gen
 bin
 /.settings
-/*.iml
-.idea
-out
