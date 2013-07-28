@@ -7,7 +7,7 @@
     <ListView
         android:id="@+id/fragment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" >
@@ -21,4 +21,16 @@
             android:layout_centerVertical="true"
             android:alpha="0.7"
             android:visibility="gone" />
+
+    <Button
+            android:id="@+id/top_subscribe_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_top_btn_subscribe"
+            android:focusable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/top_progress_bar"
+            android:focusableInTouchMode="true"
+            android:visibility="gone"/>
+
 </RelativeLayout>

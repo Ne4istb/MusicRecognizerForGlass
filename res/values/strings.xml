@@ -12,4 +12,7 @@
     <string name="fragment_search_btn_search">Start</string>
     <string name="fragment_search_btn_search_stop">Stop</string>
 
+    <!-- fragment_top -->
+    <string name="fragment_top_btn_subscribe">Subscribe for daily updates</string>
+
 </resources>

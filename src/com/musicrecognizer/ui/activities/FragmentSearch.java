@@ -217,12 +217,12 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 		protected Track doInBackground(Void... params) {
 
 			try {
-
-				File file = new File(mFileName);
-				Track track = mEchoNestAPI.uploadTrack(file);
-				track.waitForAnalysis(30000);
-
-				return track;
+//
+//				File file = new File(mFileName);
+//				Track track = mEchoNestAPI.uploadTrack(file);
+//				track.waitForAnalysis(30000);
+//
+//				return track;
 			} catch (Exception e) {
 
 				UtilsHelper.printException(e);

@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/top_list_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/top_list_item"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
         >
 
     <LinearLayout
-         xmlns:android="http://schemas.android.com/apk/res/android"
-         android:id="@+id/artist_name"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="vertical"
-            >
-         <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-         android:textAppearance="?android:attr/textAppearanceLarge"
-         android:gravity="center_vertical"
-         android:paddingLeft="6dip"
-         android:minHeight="?android:attr/listPreferredItemHeight"
-         android:text="Artist Name"
-         android:autoText="false"
-         android:layout_gravity="left|center_vertical">
-                 </TextView>
-    </LinearLayout>
-
-    <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/song_name"
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:gravity="center_vertical"
-                android:paddingLeft="6dip"
-                android:minHeight="?android:attr/listPreferredItemHeight"
-                android:text="Song Name"
-                android:autoText="false"
-                >
+            android:id="@+id/artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical"
+            android:paddingLeft="6dip"
+            android:text="Artist Name"
+            android:autoText="false"
+            android:layout_gravity="left|center_vertical"
+            android:textStyle="bold"
+            android:paddingTop="20dp">
         </TextView>
     </LinearLayout>
 
-  </LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical"
+            android:paddingLeft="6dip"
+            android:text="Song Name"
+            android:autoText="false"
+            android:paddingTop="10dp"
+            android:textStyle="italic">
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>
