@@ -14,5 +14,6 @@
 
     <!-- fragment_top -->
     <string name="fragment_top_btn_subscribe">Subscribe for daily updates</string>
+    <string name="fragment_top_btn_unsubscribe">Unsubscribe from daily updates</string>
 
 </resources>

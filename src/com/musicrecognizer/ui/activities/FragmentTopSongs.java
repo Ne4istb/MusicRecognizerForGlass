@@ -7,8 +7,11 @@ import com.echonest.api.v4.Artist;
 import com.musicrecognizer.utils.UtilsHelper;
 
 import d.musicrecognizer.R;
+
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +33,14 @@ import org.json.JSONObject;
 
 public class FragmentTopSongs extends Fragment {
 
+    String subscriptionPreference = "SubscribedForUpdates";
+
     private View mViewContent;
 	private ListView mTrackList;
     private ProgressBar mProgressBar;
-    private Button mButton;
+    private Button mButtonSubscribe;
+
+    SharedPreferences preferences;
 
     public static FragmentTopSongs newInstance() {
 		FragmentTopSongs fragmentDirectionPoint = new FragmentTopSongs();
@@ -47,15 +54,46 @@ public class FragmentTopSongs extends Fragment {
 		mViewContent = inflater.inflate(R.layout.fragment_top, container, false);
 
         mProgressBar = (ProgressBar) mViewContent.findViewById(R.id.top_progress_bar);
-        mButton = (Button) mViewContent.findViewById(R.id.top_subscribe_button);
 		mTrackList = (ListView) mViewContent.findViewById(R.id.fragment_list);
-				
+
+        mButtonSubscribe = (Button) mViewContent.findViewById(R.id.top_subscribe_button);
+
+        SetSubscriptionButtonLabel();
+
+        View.OnClickListener onClickSubscribe = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                boolean subscribed = preferences.getBoolean(subscriptionPreference, false);
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean(subscriptionPreference, !subscribed);
+                editor.commit();
+
+                SetSubscriptionButtonLabel();
+            }
+        };
+
+        mButtonSubscribe.setOnClickListener(onClickSubscribe);
+
 		new GetTopTracksAsync().execute();
 
 		return mViewContent;
 	}
-	
-	private class GetTopTracksAsync extends AsyncTask<Void,Void,List<Artist>> {
+
+    private void SetSubscriptionButtonLabel() {
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean subscribed = preferences.getBoolean(subscriptionPreference, false);
+
+        if (subscribed)
+            mButtonSubscribe.setText(R.string.fragment_top_btn_unsubscribe);
+        else
+            mButtonSubscribe.setText(R.string.fragment_top_btn_subscribe);
+    }
+
+    private class GetTopTracksAsync extends AsyncTask<Void,Void,List<Artist>> {
 
         String topTracksUri = "http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=028d73272c6c83dec35817d247f511f9&format=json&limit=5";
 
@@ -111,7 +149,7 @@ public class FragmentTopSongs extends Fragment {
 		    mTrackList.setAdapter(adapter);
 
             mProgressBar.setVisibility(View.GONE);
-            mButton.setVisibility(View.VISIBLE);
+            mButtonSubscribe.setVisibility(View.VISIBLE);
 		}
 	}
 
