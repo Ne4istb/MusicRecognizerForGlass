@@ -10,7 +10,7 @@ import d.musicrecognizer.R;
 
 public class ActivityMain extends FragmentActivity {
 
-	private static final int NUM_PAGES = 3;
+	private static final int NUM_PAGES = 2;
 
 	private ViewPager mViewPager;
 	private ScreenSlidePagerAdapter mViewPagerAdapter;
@@ -74,7 +74,7 @@ public class ActivityMain extends FragmentActivity {
 
 			case 2:
 
-				return FragmentTopSongs.newInstance();
+//				return FragmentTopSongs.newInstance();
 
 			default:
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.Track;
+import com.echonest.api.v4.Track.AnalysisStatus;
 import com.musicrecognizer.utils.UtilsHelper;
 
 import d.musicrecognizer.R;
@@ -27,7 +28,7 @@ import d.musicrecognizer.R;
 public class FragmentSearch extends Fragment implements OnClickListener {
 
 	public int RECORD_FILE_TIME = 10;
-	public int UPDATE_PERIOD = 1000;
+	public int UPDATE_PERIOD = 6000;
 
 	private View mViewContent;
 
@@ -55,9 +56,10 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+		mEchoNestAPI = new EchoNestAPI(UtilsHelper.API_KEY);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -85,12 +87,7 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 			mFileName = Environment.getExternalStorageDirectory()
 					.getAbsolutePath();
-			mFileName += "/" + UtilsHelper.FILE_RECORD_NAME;
-			File tempFileRecording = new File(mFileName);
-			if (tempFileRecording.exists()) {
-
-				tempFileRecording.delete();
-			}
+			mFileName += UtilsHelper.FILE_RECORD_NAME;
 			startRecording();
 		} else {
 
@@ -108,7 +105,7 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setOutputFile(mFileName);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
@@ -142,14 +139,18 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 						@Override
 						public void run() {
 
-							if (!mIsRecording)
-								stopRecording(true);
-							mProgressBar.setProgress(++counter);
-							if (counter == RECORD_FILE_TIME) {
+							if (!mIsRecording) {
 
-								stopRecording(false);
+								stopRecording(true);
+							} else {
+
+								mProgressBar.setProgress(++counter);
+								if (counter == RECORD_FILE_TIME) {
+
+									stopRecording(false);
+								} else
+									updateProg();
 							}
-							updateProg();
 						}
 					});
 				} catch (Exception e) {
@@ -173,7 +174,31 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 
 		if (!isForce) {
 
-			new AsyncTaskSeachSong().execute();
+			// new AsyncTaskSeachSong().execute();
+			new Thread() {
+
+				public void run() {
+
+					try {
+
+						EchoNestAPI echoNestAPI = new EchoNestAPI(
+								UtilsHelper.API_KEY);
+						Track track = echoNestAPI.uploadTrack(new File(
+								mFileName));
+						AnalysisStatus status = track.waitForAnalysis(60000);
+						if (status == AnalysisStatus.COMPLETE) {
+
+							UtilsHelper.println("Tempo in BPM: "
+									+ track.getArtistName());
+						}
+
+					} catch (Exception e) {
+
+						UtilsHelper.printException(e);
+					}
+				};
+
+			}.start();
 		}
 	}
 
@@ -217,12 +242,8 @@ public class FragmentSearch extends Fragment implements OnClickListener {
 		protected Track doInBackground(Void... params) {
 
 			try {
-//
-//				File file = new File(mFileName);
-//				Track track = mEchoNestAPI.uploadTrack(file);
-//				track.waitForAnalysis(30000);
-//
-//				return track;
+
+				return null;
 			} catch (Exception e) {
 
 				UtilsHelper.printException(e);
